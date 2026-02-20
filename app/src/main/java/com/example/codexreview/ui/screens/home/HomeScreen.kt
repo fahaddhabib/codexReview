@@ -26,6 +26,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.codexreview.navigation.HomeRoutes
+import com.example.codexreview.ui.screens.settings.SettingsScreen
 import com.example.codexreview.viewmodel.home.HomeViewModel
 import org.koin.androidx.compose.koinViewModel
 
@@ -86,7 +87,7 @@ fun HomeScreen(
         ) {
             composable(HomeRoutes.CHAT) { HomeTabScreen(label = "Chat") }
             composable(HomeRoutes.HUB) { HomeTabScreen(label = "Hub") }
-            composable(HomeRoutes.SETTINGS) { HomeTabScreen(label = "Settings") }
+            composable(HomeRoutes.SETTINGS) { SettingsScreen() }
         }
     }
 }
