@@ -1,5 +1,11 @@
 package com.example.codexreview.navigation
 
 object AppRoutes {
-    const val USERS = "users"
+    const val HOME = "home"
+}
+
+object HomeRoutes {
+    const val CHAT = "chat"
+    const val HUB = "hub"
+    const val SETTINGS = "settings"
 }

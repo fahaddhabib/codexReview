@@ -6,7 +6,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.codexreview.ui.screens.UsersScreen
+import com.example.codexreview.ui.screens.home.HomeScreen
 
 @Composable
 fun AppNavHost(
@@ -15,11 +15,11 @@ fun AppNavHost(
 ) {
     NavHost(
         navController = navController,
-        startDestination = AppRoutes.USERS,
+        startDestination = AppRoutes.HOME,
         modifier = modifier
     ) {
-        composable(route = AppRoutes.USERS) {
-            UsersScreen()
+        composable(route = AppRoutes.HOME) {
+            HomeScreen()
         }
     }
 }
