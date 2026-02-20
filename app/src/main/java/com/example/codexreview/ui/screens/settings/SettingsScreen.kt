@@ -37,9 +37,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.example.codexreview.R
 import com.example.codexreview.data.datastore.ThemeMode
 import com.example.codexreview.viewmodel.settings.SettingsViewModel
 import org.koin.androidx.compose.koinViewModel
@@ -48,6 +50,7 @@ import org.koin.androidx.compose.koinViewModel
 @Composable
 fun SettingsScreen(
     modifier: Modifier = Modifier,
+    onLanguageClick: () -> Unit,
     viewModel: SettingsViewModel = koinViewModel()
 ) {
     val selectedTheme by viewModel.selectedTheme.collectAsStateWithLifecycle()
@@ -59,7 +62,7 @@ fun SettingsScreen(
             .padding(horizontal = 20.dp, vertical = 12.dp)
     ) {
         Text(
-            text = "Settings",
+            text = stringResource(R.string.settings),
             style = MaterialTheme.typography.headlineMedium,
             fontWeight = FontWeight.SemiBold
         )
@@ -74,11 +77,11 @@ fun SettingsScreen(
 
         Spacer(modifier = Modifier.height(12.dp))
 
-        SettingRow(icon = Icons.Filled.Key, label = "Account", onClick = {})
-        SettingRow(icon = Icons.Filled.Lock, label = "Privacy", onClick = {})
-        SettingRow(icon = Icons.Filled.Palette, label = "Themes", onClick = { showThemeSheet = true })
-        SettingRow(icon = Icons.Filled.Language, label = "Language", onClick = {})
-        SettingRow(icon = Icons.Filled.HelpOutline, label = "Help", onClick = {})
+        SettingRow(icon = Icons.Filled.Key, label = stringResource(R.string.account), onClick = {})
+        SettingRow(icon = Icons.Filled.Lock, label = stringResource(R.string.privacy), onClick = {})
+        SettingRow(icon = Icons.Filled.Palette, label = stringResource(R.string.themes), onClick = { showThemeSheet = true })
+        SettingRow(icon = Icons.Filled.Language, label = stringResource(R.string.language), onClick = onLanguageClick)
+        SettingRow(icon = Icons.Filled.HelpOutline, label = stringResource(R.string.help), onClick = {})
     }
 
     if (showThemeSheet) {
@@ -89,7 +92,7 @@ fun SettingsScreen(
             sheetState = sheetState
         ) {
             ThemeOptionRow(
-                label = "System default",
+                label = stringResource(R.string.system_default),
                 selected = selectedTheme == ThemeMode.SYSTEM,
                 onClick = {
                     viewModel.onThemeSelected(ThemeMode.SYSTEM)
@@ -97,7 +100,7 @@ fun SettingsScreen(
                 }
             )
             ThemeOptionRow(
-                label = "Light",
+                label = stringResource(R.string.light),
                 selected = selectedTheme == ThemeMode.LIGHT,
                 onClick = {
                     viewModel.onThemeSelected(ThemeMode.LIGHT)
@@ -105,7 +108,7 @@ fun SettingsScreen(
                 }
             )
             ThemeOptionRow(
-                label = "Dark",
+                label = stringResource(R.string.dark),
                 selected = selectedTheme == ThemeMode.DARK,
                 onClick = {
                     viewModel.onThemeSelected(ThemeMode.DARK)
@@ -133,7 +136,7 @@ private fun ProfileHeader() {
         ) {
             Icon(
                 imageVector = Icons.Filled.Person,
-                contentDescription = "Profile avatar",
+                contentDescription = stringResource(R.string.profile_avatar),
                 tint = MaterialTheme.colorScheme.onSecondaryContainer
             )
         }
@@ -144,7 +147,7 @@ private fun ProfileHeader() {
         }
 
         IconButton(onClick = {}) {
-            Icon(imageVector = Icons.Filled.QrCode2, contentDescription = "Show QR")
+            Icon(imageVector = Icons.Filled.QrCode2, contentDescription = stringResource(R.string.show_qr))
         }
     }
 }
@@ -189,7 +192,7 @@ private fun ThemeOptionRow(
         Text(text = label, style = MaterialTheme.typography.bodyLarge)
         if (selected) {
             Text(
-                text = "Selected",
+                text = stringResource(R.string.selected),
                 style = MaterialTheme.typography.labelMedium,
                 color = MaterialTheme.colorScheme.primary
             )

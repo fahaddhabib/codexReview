@@ -18,14 +18,17 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.example.codexreview.R
 import com.example.codexreview.navigation.HomeRoutes
 import com.example.codexreview.ui.screens.settings.SettingsScreen
+import com.example.codexreview.ui.screens.settings.language.LanguageScreen
 import com.example.codexreview.viewmodel.home.HomeViewModel
 import org.koin.androidx.compose.koinViewModel
 
@@ -38,6 +41,12 @@ fun HomeScreen(
     val navController = rememberNavController()
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
+
+    val homeTabs = listOf(
+        HomeTab(route = HomeRoutes.CHAT, label = stringResource(R.string.chat), icon = Icons.Filled.Chat),
+        HomeTab(route = HomeRoutes.HUB, label = stringResource(R.string.hub), icon = Icons.Filled.Group),
+        HomeTab(route = HomeRoutes.SETTINGS, label = stringResource(R.string.settings), icon = Icons.Filled.Settings)
+    )
 
     LaunchedEffect(currentDestination?.route) {
         currentDestination?.route?.let(viewModel::onTabSelected)
@@ -81,9 +90,14 @@ fun HomeScreen(
             startDestination = HomeRoutes.CHAT,
             modifier = Modifier.padding(innerPadding)
         ) {
-            composable(HomeRoutes.CHAT) { HomeTabScreen(label = "Chat") }
-            composable(HomeRoutes.HUB) { HomeTabScreen(label = "Hub") }
-            composable(HomeRoutes.SETTINGS) { SettingsScreen() }
+            composable(HomeRoutes.CHAT) { HomeTabScreen(label = stringResource(R.string.chat)) }
+            composable(HomeRoutes.HUB) { HomeTabScreen(label = stringResource(R.string.hub)) }
+            composable(HomeRoutes.SETTINGS) {
+                SettingsScreen(onLanguageClick = { navController.navigate(HomeRoutes.LANGUAGE) })
+            }
+            composable(HomeRoutes.LANGUAGE) {
+                LanguageScreen(onBackClick = { navController.popBackStack() })
+            }
         }
     }
 }
@@ -102,10 +116,4 @@ private data class HomeTab(
     val route: String,
     val label: String,
     val icon: androidx.compose.ui.graphics.vector.ImageVector
-)
-
-private val homeTabs = listOf(
-    HomeTab(route = HomeRoutes.CHAT, label = "Chat", icon = Icons.Filled.Chat),
-    HomeTab(route = HomeRoutes.HUB, label = "Hub", icon = Icons.Filled.Group),
-    HomeTab(route = HomeRoutes.SETTINGS, label = "Settings", icon = Icons.Filled.Settings)
 )

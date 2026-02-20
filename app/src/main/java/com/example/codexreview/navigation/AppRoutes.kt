@@ -8,4 +8,5 @@ object HomeRoutes {
     const val CHAT = "chat"
     const val HUB = "hub"
     const val SETTINGS = "settings"
+    const val LANGUAGE = "language"
 }
