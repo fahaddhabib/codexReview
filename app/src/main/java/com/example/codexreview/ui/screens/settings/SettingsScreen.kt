@@ -51,7 +51,9 @@ fun SettingsScreen(
     viewModel: SettingsViewModel = koinViewModel()
 ) {
     val selectedTheme by viewModel.selectedTheme.collectAsStateWithLifecycle()
+    val selectedLanguageTag by viewModel.selectedLanguageTag.collectAsStateWithLifecycle()
     var showThemeSheet by remember { mutableStateOf(false) }
+    var showLanguageSheet by remember { mutableStateOf(false) }
 
     Column(
         modifier = modifier
@@ -77,7 +79,7 @@ fun SettingsScreen(
         SettingRow(icon = Icons.Filled.Key, label = "Account", onClick = {})
         SettingRow(icon = Icons.Filled.Lock, label = "Privacy", onClick = {})
         SettingRow(icon = Icons.Filled.Palette, label = "Themes", onClick = { showThemeSheet = true })
-        SettingRow(icon = Icons.Filled.Language, label = "Language", onClick = {})
+        SettingRow(icon = Icons.Filled.Language, label = "Language", onClick = { showLanguageSheet = true })
         SettingRow(icon = Icons.Filled.HelpOutline, label = "Help", onClick = {})
     }
 
@@ -110,6 +112,35 @@ fun SettingsScreen(
                 onClick = {
                     viewModel.onThemeSelected(ThemeMode.DARK)
                     showThemeSheet = false
+                }
+            )
+            Spacer(modifier = Modifier.height(24.dp))
+        }
+    }
+
+    if (showLanguageSheet) {
+        val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
+
+        ModalBottomSheet(
+            onDismissRequest = { showLanguageSheet = false },
+            sheetState = sheetState
+        ) {
+            LanguageOptionRow(
+                label = "English",
+                languageTag = "en",
+                selectedLanguageTag = selectedLanguageTag,
+                onClick = {
+                    viewModel.onLanguageSelected("en")
+                    showLanguageSheet = false
+                }
+            )
+            LanguageOptionRow(
+                label = "Malay",
+                languageTag = "ms",
+                selectedLanguageTag = selectedLanguageTag,
+                onClick = {
+                    viewModel.onLanguageSelected("ms")
+                    showLanguageSheet = false
                 }
             )
             Spacer(modifier = Modifier.height(24.dp))
@@ -195,4 +226,18 @@ private fun ThemeOptionRow(
             )
         }
     }
+}
+
+@Composable
+private fun LanguageOptionRow(
+    label: String,
+    languageTag: String,
+    selectedLanguageTag: String,
+    onClick: () -> Unit
+) {
+    ThemeOptionRow(
+        label = label,
+        selected = selectedLanguageTag == languageTag,
+        onClick = onClick
+    )
 }
